@@ -1,2 +1,3 @@
-./.idea/*
+/.idea/*
 virtual_book_management_system.iml
+/target/*
