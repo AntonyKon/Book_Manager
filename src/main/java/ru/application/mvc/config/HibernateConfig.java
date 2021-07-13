@@ -12,6 +12,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
+import java.io.IOException;
 import java.util.Properties;
 
 @Configuration
@@ -45,24 +46,24 @@ public class HibernateConfig {
     }
 
     @Bean
-    public SessionFactory sessionFactoryBean() throws PropertyVetoException {
+    public SessionFactory sessionFactoryBean() throws PropertyVetoException, IOException {
         LocalSessionFactoryBean localSessionFactoryBean = new LocalSessionFactoryBean();
 
         localSessionFactoryBean.setDataSource(dataSource());
         localSessionFactoryBean.setPackagesToScan("ru.application.mvc.models");
 
         Properties properties = new Properties();
-
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQL9Dialect");
         properties.setProperty("hibernate.show_sql", "true");
-
         localSessionFactoryBean.setHibernateProperties(properties);
+
+        localSessionFactoryBean.afterPropertiesSet();
 
         return localSessionFactoryBean.getObject();
     }
 
     @Bean
-    public HibernateTransactionManager transactionManager() throws PropertyVetoException {
+    public HibernateTransactionManager transactionManager() throws PropertyVetoException, IOException {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
         transactionManager.setSessionFactory(sessionFactoryBean());
 
