@@ -13,9 +13,13 @@ public class Genre {
     @Column(name = "genre_name")
     private String name;
 
-    public Genre(int id, String name) {
+    @Column
+    private String description;
+
+    public Genre(int id, String name, String description) {
         this.id = id;
         this.name = name;
+        this.description = description;
     }
 
     public Genre() {
@@ -36,5 +40,13 @@ public class Genre {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
