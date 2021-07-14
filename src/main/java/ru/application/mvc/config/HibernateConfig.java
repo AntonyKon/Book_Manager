@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.TransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
@@ -18,7 +21,8 @@ import java.util.Properties;
 @Configuration
 @ComponentScan("ru.application.mvc")
 @PropertySource("classpath:connection.properties")
-public class HibernateConfig {
+@EnableTransactionManagement
+public class HibernateConfig implements TransactionManagementConfigurer {
     private final String url;
     private final String username;
     private final String password;
@@ -33,7 +37,7 @@ public class HibernateConfig {
         this.password = password;
         this.driver = driver;
     }
-
+    
     @Bean
     public DataSource dataSource() throws PropertyVetoException {
         ComboPooledDataSource dataSource = new ComboPooledDataSource();
@@ -69,5 +73,18 @@ public class HibernateConfig {
         transactionManager.setSessionFactory(sessionFactoryBean());
 
         return transactionManager;
+    }
+
+    @Override
+    public TransactionManager annotationDrivenTransactionManager() {
+        try {
+            return transactionManager();
+        } catch (PropertyVetoException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }
