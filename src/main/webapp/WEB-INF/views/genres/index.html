@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Все жанры</title>
+</head>
+<body>
+<table>
+    <tr th:each="genre : ${genres}">
+        <td th:text="${genre.getId()}"></td>
+        <td th:text="${genre.getName()}"></td>
+        <td th:text="${genre.getDescription()}"></td>
+    </tr>
+</table>
+</body>
+</html>
