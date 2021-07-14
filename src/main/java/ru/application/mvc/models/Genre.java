@@ -8,12 +8,13 @@ import javax.persistence.*;
 public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "genre_id")
     private int id;
 
     @Column(name = "genre_name")
     private String name;
 
-    @Column
+    @Column(columnDefinition = "text")
     private String description;
 
     public Genre(int id, String name, String description) {

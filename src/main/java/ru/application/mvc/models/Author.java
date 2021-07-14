@@ -25,7 +25,7 @@ public class Author {
     @Column(name = "author_name")
     private String name;
 
-    @Column
+    @Column(columnDefinition = "text")
     private String biography;
 
     @Type(type = "string-array")

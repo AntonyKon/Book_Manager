@@ -15,6 +15,7 @@ public class Book {
     @Column(name = "book_name")
     private String name;
 
+    @Column(columnDefinition = "text")
     private String plot;
 
     @Column(name = "publication_year")
