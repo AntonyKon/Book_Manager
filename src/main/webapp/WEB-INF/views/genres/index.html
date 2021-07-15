@@ -3,14 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <title>Все жанры</title>
+    <link th:replace="~{blocks :: style}">
 </head>
 <body>
-<table>
-    <tr th:each="genre : ${genres}">
-        <td th:text="${genre.getId()}"></td>
-        <td th:text="${genre.getName()}"></td>
-        <td th:text="${genre.getDescription()}"></td>
-    </tr>
-</table>
+<div th:replace="~{blocks :: nav}">Navigation</div>
+<div>
+    <div class="card w-50 m-3">
+        <div class="card-header">
+            Доступные жанры книг
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered w-auto table-striped table-hover">
+                <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="align-middle" th:each="genre, state : ${genres}">
+                    <td th:text="${state.index + 1}">ID</td>
+                    <td th:text="${genre.getName()}">NAME</td>
+                    <td th:text="${genre.getDescription()}">DESCRIPTION</td>
+                </tr>
+                </tbody>
+            </table>
+            <a th:href="@{/genres/new}" class="btn btn-primary">Добавить жанр</a>
+        </div>
+    </div>
+</div>
+<link th:replace="~{blocks :: js}">
 </body>
 </html>

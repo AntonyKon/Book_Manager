@@ -1,10 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Добавление нового жанра</title>
+    <link th:replace="~{blocks :: style}">
 </head>
 <body>
-<form
+<div class="card mx-auto w-50">
+    <h5 class="card-header">Добавление нового жанра</h5>
+    <div class="card-body">
+        <form th:method="POST" th:action="@{/genres}" th:object="${genre}">
+            <div class="mb-3 w-25">
+                <label for="genre_name" class="form-label">Название жанра</label>
+                <input type="text" class="form-control" id="genre_name" th:field="*{name}">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Описание жанра</label>
+                <textarea class="form-control" id="description" rows="3" th:field="*{description}"></textarea>
+            </div>
+            <div class="mb-3">
+                <input type="submit" value="Добавить жанр">
+            </div>
+        </form>
+    </div>
+</div>
+
+<link th:replace="~{blocks :: js}">
 </body>
 </html>
