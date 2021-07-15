@@ -9,7 +9,6 @@ import java.util.List;
 @Table(name = "books")
 public class Book {
     @Id
-    @Column(name = "book_id")
     private int id;
 
     @Column(name = "book_name")

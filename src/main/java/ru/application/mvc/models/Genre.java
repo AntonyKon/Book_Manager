@@ -8,7 +8,6 @@ import javax.persistence.*;
 public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "genre_id")
     private int id;
 
     @Column(name = "genre_name")
