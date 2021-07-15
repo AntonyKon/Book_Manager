@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.application.mvc.models.Genre;
 import ru.application.mvc.services.ManagementService;
@@ -24,7 +25,13 @@ public class GenreController {
     }
 
     @GetMapping("/new")
-    public String addGenre(@ModelAttribute("genre") Genre genre) {
+    public String newGenre(@ModelAttribute("genre") Genre genre) {
         return "genres/new";
+    }
+
+    @PostMapping()
+    public String addGenre(@ModelAttribute("genre") Genre genre) {
+        service.saveGenre(genre);
+        return "redirect:/genres";
     }
 }

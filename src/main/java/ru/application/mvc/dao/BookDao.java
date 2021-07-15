@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.application.mvc.models.Book;
+import ru.application.mvc.models.Genre;
 
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -41,4 +42,10 @@ public class BookDao extends GenericDao<Book> {
     public void delete(Book book) {
 
     }
+
+    @Transactional
+    public void getByGenre(Genre genre) {
+        Session session = sessionFactory.getCurrentSession();
+    }
+
 }

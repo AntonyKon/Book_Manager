@@ -31,8 +31,10 @@ public class GenreDao extends GenericDao<Genre> {
     }
 
     @Override
-    public void save(Genre model) {
-
+    @Transactional
+    public void save(Genre genre) {
+        Session session = sessionFactory.getCurrentSession();
+        session.save(genre);
     }
 
     @Override

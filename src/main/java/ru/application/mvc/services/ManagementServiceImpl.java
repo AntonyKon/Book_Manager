@@ -65,7 +65,7 @@ public class ManagementServiceImpl implements ManagementService{
 
     @Override
     public void saveGenre(Genre genre) {
-
+        genreDao.save(genre);
     }
 
     @Override
