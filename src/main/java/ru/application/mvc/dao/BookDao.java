@@ -10,19 +10,25 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
+@Transactional
 public class BookDao extends GenericDao<Book> {
     @Override
     public Book findById(int id) {
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        TypedQuery<Book> query = session.createQuery(
+                "from Book as book where book.id=:id", Book.class).setParameter("id", id);
+        return query.getSingleResult();
     }
 
     @Override
-    public Book findByName(String name) {
-        return null;
+    public List<Book> findByName(String name) {
+        Session session = sessionFactory.getCurrentSession();
+        TypedQuery<Book> query = session.createQuery(
+                "from Book as book where book.name=:name", Book.class).setParameter("name", name);
+        return query.getResultList();
     }
 
     @Override
-    @Transactional
     public List<Book> findAll() {
         Session session = sessionFactory.getCurrentSession();
         TypedQuery<Book> query = session.createQuery("from Book", Book.class);
@@ -32,20 +38,28 @@ public class BookDao extends GenericDao<Book> {
 
     @Override
     public void save(Book book) {
+        Session session = sessionFactory.getCurrentSession();
+        session.save(book);
     }
 
     @Override
     public void update(Book book) {
+        Session session = sessionFactory.getCurrentSession();
+        session.update(book);
     }
 
     @Override
     public void delete(Book book) {
-
+        Session session = sessionFactory.getCurrentSession();
+        session.delete(book);
     }
 
-    @Transactional
-    public void getByGenre(Genre genre) {
+    public List<Book> findByGenre(Genre genre) {
         Session session = sessionFactory.getCurrentSession();
+        TypedQuery<Book> query = session.createQuery(
+                "from Book as book where book.genre=:genre", Book.class).setParameter("genre", genre);
+
+        return query.getResultList();
     }
 
 }

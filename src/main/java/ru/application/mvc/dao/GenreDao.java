@@ -10,19 +10,27 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
+@Transactional
 public class GenreDao extends GenericDao<Genre> {
     @Override
     public Genre findById(int id) {
-        return null;
+        Session session = sessionFactory.getCurrentSession();
+        TypedQuery<Genre> query = session.createQuery(
+                "from Genre as genre where genre.id=:id", Genre.class).setParameter("id", id);
+
+        return query.getSingleResult();
     }
 
     @Override
-    public Genre findByName(String name) {
-        return null;
+    public List<Genre> findByName(String name) {
+        Session session = sessionFactory.getCurrentSession();
+        TypedQuery<Genre> query = session.createQuery(
+                "from Genre as genre where genre.name=:name", Genre.class).setParameter("name", name);
+
+        return query.getResultList();
     }
 
     @Override
-    @Transactional
     public List<Genre> findAll() {
         Session session = sessionFactory.getCurrentSession();
         TypedQuery<Genre> query = session.createQuery("from Genre", Genre.class);
@@ -31,19 +39,20 @@ public class GenreDao extends GenericDao<Genre> {
     }
 
     @Override
-    @Transactional
     public void save(Genre genre) {
         Session session = sessionFactory.getCurrentSession();
         session.save(genre);
     }
 
     @Override
-    public void update(Genre model) {
-
+    public void update(Genre genre) {
+        Session session = sessionFactory.getCurrentSession();
+        session.update(genre);
     }
 
     @Override
-    public void delete(Genre model) {
-
+    public void delete(Genre genre) {
+        Session session = sessionFactory.getCurrentSession();
+        session.delete(genre);
     }
 }
