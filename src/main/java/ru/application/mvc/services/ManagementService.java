@@ -14,7 +14,7 @@ public interface ManagementService {
     List<Book> findAllBooks();
     List<Book> findBooksByName(String name);
     void saveBook(Book book, MultipartFile file);
-    void updateBook(Book book);
+    void updateBook(Book book, MultipartFile file);
     void deleteBook(Book book);
 
     Genre findGenreById(int id);
@@ -27,8 +27,8 @@ public interface ManagementService {
     abstract Author findAuthorById(int id);
     abstract List<Author> findAuthorsByName(String name);
     abstract List<Author> findAllAuthors();
-    abstract void saveAuthor(Author author);
-    abstract void updateAuthor(Author author);
+    abstract void saveAuthor(Author author, MultipartFile[] files);
+    abstract void updateAuthor(Author author, MultipartFile[] files);
     abstract void deleteAuthor(Author author);
 
 }

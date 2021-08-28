@@ -11,8 +11,10 @@ import ru.application.mvc.models.Genre;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class ManagementServiceImpl implements ManagementService{
@@ -29,7 +31,6 @@ public class ManagementServiceImpl implements ManagementService{
 
     @Override
     public Book findBookById(int id) {
-
         return bookDao.findById(id);
     }
 
@@ -45,17 +46,22 @@ public class ManagementServiceImpl implements ManagementService{
 
     @Override
     public void saveBook(Book book, MultipartFile file) {
+        book.setPhoto(file.getOriginalFilename());
         bookDao.save(book);
         savePhotos(new MultipartFile[] {file});
     }
 
     @Override
-    public void updateBook(Book book) {
+    public void updateBook(Book book, MultipartFile file) {
+        deletePhotos(new String[] {book.getPhoto()});
+        book.setPhoto(file.getOriginalFilename());
         bookDao.update(book);
+        savePhotos(new MultipartFile[] {file});
     }
 
     @Override
     public void deleteBook(Book book) {
+        deletePhotos(new String[] {book.getPhoto()});
         bookDao.delete(book);
     }
 
@@ -105,15 +111,26 @@ public class ManagementServiceImpl implements ManagementService{
     }
 
     @Override
-    public void saveAuthor(Author author) {
+    public void saveAuthor(Author author, MultipartFile[] files) {
+        List<String> fileNames = Arrays.stream(files).map(MultipartFile::getOriginalFilename).collect(Collectors.toList());
+        savePhotos(files);
+        author.setPhotos(fileNames);
+        authorDao.save(author);
     }
 
     @Override
-    public void updateAuthor(Author author) {
+    public void updateAuthor(Author author, MultipartFile[] files) {
+        List<String> fileNames = Arrays.stream(files).map(MultipartFile::getOriginalFilename).collect(Collectors.toList());
+        deletePhotos(author.getPhotos().toArray(new String[0]));
+        author.setPhotos(fileNames);
+        authorDao.update(author);
+        savePhotos(files);
     }
 
     @Override
     public void deleteAuthor(Author author) {
+        deletePhotos(author.getPhotos().toArray(new String[0]));
+        authorDao.delete(author);
     }
 
     public void savePhotos(MultipartFile[] files) {
@@ -126,5 +143,16 @@ public class ManagementServiceImpl implements ManagementService{
                 e.printStackTrace();
             }
         }
+    }
+
+    public void deletePhotos(String[] fileNames) {
+        for (String fileName: fileNames) {
+            File file = new File(path, fileName);
+            file.delete();
+        }
+    }
+
+    public String getPath() {
+        return path;
     }
 }
