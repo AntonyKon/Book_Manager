@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Все жанры</title>
+    <title>Все авторы</title>
     <link th:replace="~{blocks :: style}">
 </head>
 <body>
@@ -10,26 +10,26 @@
 <div>
     <div class="card w-50 m-3">
         <div class="card-header">
-            Доступные жанры книг
+            Доступные авторы книг
         </div>
         <div class="card-body">
             <table class="table table-bordered w-auto table-striped table-hover">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Название жанра</th>
-                    <th scope="col">Описание</th>
+                    <th scope="col">Имя автора</th>
+                    <th scope="col">Страна</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="align-middle" th:each="genre, state : ${genres}">
+                <tr class="align-middle" th:each="author, state : ${authors}">
                     <td th:text="${state.index + 1}">ID</td>
-                    <td th:text="${genre.getName()}">NAME</td>
-                    <td th:text="${genre.getDescription()}">DESCRIPTION</td>
+                    <td th:text="${author.getName()}">NAME</td>
+                    <td th:text="${author.getCountry()}">Country</td>
                 </tr>
                 </tbody>
             </table>
-            <a th:href="@{/genres/new}" class="btn btn-primary">Добавить жанр</a>
+            <a th:href="@{/authors/new}" class="btn btn-primary">Добавить автора</a>
         </div>
     </div>
 </div>
