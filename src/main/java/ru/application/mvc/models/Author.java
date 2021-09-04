@@ -1,18 +1,21 @@
 package ru.application.mvc.models;
 
+import com.vladmihalcea.hibernate.type.array.ListArrayType;
 import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "authors")
 @TypeDefs({
         @TypeDef(
-                name = "string-array",
-                typeClass = StringArrayType.class
+                name = "list-array",
+                typeClass = ListArrayType.class
         )
 })
 public class Author {
@@ -27,15 +30,15 @@ public class Author {
     @Column(columnDefinition = "text")
     private String biography;
 
-    @Type(type = "string-array")
+    @Type(type = "list-array")
     @Column(name = "photos",
     columnDefinition = "character varying[]")
-    private String[] photos;
+    private List<String> photos;
 
     @ManyToOne
     private Country country;
 
-    public Author(int id, String name, String biography, String[] photos, Country country) {
+    public Author(int id, String name, String biography, List<String> photos, Country country) {
         this.id = id;
         this.name = name;
         this.biography = biography;
@@ -70,11 +73,11 @@ public class Author {
         this.biography = biography;
     }
 
-    public String[] getPhotos() {
+    public List<String> getPhotos() {
         return photos;
     }
 
-    public void setPhotos(String[] photos) {
+    public void setPhotos(List<String> photos) {
         this.photos = photos;
     }
 
