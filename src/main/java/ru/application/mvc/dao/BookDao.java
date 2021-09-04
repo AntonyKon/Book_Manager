@@ -37,9 +37,9 @@ public class BookDao extends GenericDao<Book> {
     }
 
     @Override
-    public void save(Book book) {
+    public int save(Book book) {
         Session session = sessionFactory.getCurrentSession();
-        session.save(book);
+        return (Integer) session.save(book);
     }
 
     @Override
