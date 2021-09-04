@@ -24,8 +24,8 @@
                 <tbody>
                 <tr class="align-middle" th:each="author, state : ${authors}">
                     <td th:text="${state.index + 1}">ID</td>
-                    <td th:text="${author.getName()}">NAME</td>
-                    <td th:text="${author.getCountry()}">Country</td>
+                    <td th:text="${author.name}">NAME</td>
+                    <td th:text="${author.country}">Country</td>
                 </tr>
                 </tbody>
             </table>

@@ -24,8 +24,8 @@
                 <tbody>
                 <tr class="align-middle" th:each="genre, state : ${genres}">
                     <td th:text="${state.index + 1}">ID</td>
-                    <td th:text="${genre.getName()}">NAME</td>
-                    <td th:text="${genre.getDescription()}">DESCRIPTION</td>
+                    <td th:text="${genre.name}">NAME</td>
+                    <td th:text="${genre.description}">DESCRIPTION</td>
                 </tr>
                 </tbody>
             </table>

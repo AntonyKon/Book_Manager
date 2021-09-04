@@ -18,6 +18,14 @@
                 <label for="biography" class="form-label">Биография</label>
                 <textarea class="form-control" id="biography" rows="3" th:field="*{biography}"></textarea>
             </div>
+            <div class="mb-3 w-25">
+                <label for="country" class="form-label">Выберите страну автора</label>
+                <input type="text" class="form-control" id="country" th:field="*{country.name}" list="countries">
+            </div>
+
+            <datalist id="countries">
+                <option th:each="country: ${countries}" th:value="${country.name}"></option>
+            </datalist>
             <div class="mb-3">
                 <label for="pictures" class="form-label">Добавьте файлы</label>
                 <input class="form-control" type="file" id="pictures" name="pictures" accept="image/*" multiple>
