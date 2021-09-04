@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.application.mvc.dao.GenericDao;
 import ru.application.mvc.models.Author;
 import ru.application.mvc.models.Book;
+import ru.application.mvc.models.Country;
 import ru.application.mvc.models.Genre;
 
 import javax.annotation.Resource;
@@ -25,6 +26,8 @@ public class ManagementServiceImpl implements ManagementService{
     private GenericDao<Genre> genreDao;
     @Autowired
     private GenericDao<Author> authorDao;
+    @Autowired
+    private GenericDao<Country> countryDao;
 
     @Resource(mappedName = "fileStorage/basePath")
     private String path;
@@ -45,10 +48,10 @@ public class ManagementServiceImpl implements ManagementService{
     }
 
     @Override
-    public void saveBook(Book book, MultipartFile file) {
+    public int saveBook(Book book, MultipartFile file) {
         book.setPhoto(file.getOriginalFilename());
-        bookDao.save(book);
         savePhotos(new MultipartFile[] {file});
+        return (Integer) bookDao.save(book);
     }
 
     @Override
@@ -81,8 +84,8 @@ public class ManagementServiceImpl implements ManagementService{
     }
 
     @Override
-    public void saveGenre(Genre genre) {
-        genreDao.save(genre);
+    public int saveGenre(Genre genre) {
+        return (Integer) genreDao.save(genre);
     }
 
     @Override
@@ -111,11 +114,21 @@ public class ManagementServiceImpl implements ManagementService{
     }
 
     @Override
-    public void saveAuthor(Author author, MultipartFile[] files) {
+    public int saveAuthor(Author author, MultipartFile[] files) {
         List<String> fileNames = Arrays.stream(files).map(MultipartFile::getOriginalFilename).collect(Collectors.toList());
         savePhotos(files);
         author.setPhotos(fileNames);
-        authorDao.save(author);
+
+        String countryName = author.getCountry().getName();
+
+        List<Country> countries = countryDao.findByName(countryName);
+        if (countries.isEmpty()) {
+            countryDao.save(author.getCountry());
+        } else {
+            author.setCountry(countries.get(0));
+        }
+
+        return (Integer) authorDao.save(author);
     }
 
     @Override
@@ -131,6 +144,11 @@ public class ManagementServiceImpl implements ManagementService{
     public void deleteAuthor(Author author) {
         deletePhotos(author.getPhotos().toArray(new String[0]));
         authorDao.delete(author);
+    }
+
+    @Override
+    public List<Country> findAllCountries() {
+        return countryDao.findAll();
     }
 
     public void savePhotos(MultipartFile[] files) {
