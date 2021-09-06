@@ -26,7 +26,7 @@ public class AuthorDao extends GenericDao<Author> {
     @Override
     public List<Author> findByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        TypedQuery<Author> query = session.createQuery("from Author as author where author.name=:name", Author.class).setParameter("name", name);
+        TypedQuery<Author> query = session.createQuery("from Author as author where author.name like :name", Author.class).setParameter("name", name+"%");
 
         return query.getResultList();
     }

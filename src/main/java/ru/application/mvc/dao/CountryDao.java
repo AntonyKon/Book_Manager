@@ -25,7 +25,7 @@ public class CountryDao extends GenericDao<Country> {
     public List<Country> findByName(String name) {
         Session session = sessionFactory.getCurrentSession();
         TypedQuery<Country> query = session.createQuery(
-                "from Country as country where country.name=:name", Country.class).setParameter("name", name);
+                "from Country as country where country.name like :name", Country.class).setParameter("name", name+"%");
 
         return query.getResultList();
     }

@@ -24,7 +24,7 @@ public class BookDao extends GenericDao<Book> {
     public List<Book> findByName(String name) {
         Session session = sessionFactory.getCurrentSession();
         TypedQuery<Book> query = session.createQuery(
-                "from Book as book where book.name=:name", Book.class).setParameter("name", name);
+                "from Book as book where book.name like :name", Book.class).setParameter("name", name + "%");
         return query.getResultList();
     }
 

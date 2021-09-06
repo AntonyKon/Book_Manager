@@ -24,7 +24,7 @@ public class GenreDao extends GenericDao<Genre> {
     public List<Genre> findByName(String name) {
         Session session = sessionFactory.getCurrentSession();
         TypedQuery<Genre> query = session.createQuery(
-                "from Genre as genre where genre.name=:name", Genre.class).setParameter("name", name);
+                "from Genre as genre where genre.name like :name", Genre.class).setParameter("name", name+"%");
 
         return query.getResultList();
     }
